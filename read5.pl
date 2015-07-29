@@ -6,7 +6,7 @@
 use Bio::DB::Sam ;
 
 
-@test_files = ('some nonsense' 'yeast.cram') ;
+@test_files = ('some nonsense','yeast.cram') ;
 
 
 for $f (@test_files)
@@ -19,7 +19,7 @@ for $f (@test_files)
   }
   else
   {
-
+        printf( "\tError:File not opened.\n" ) ;
   }
   close($read_fh) ;
 }

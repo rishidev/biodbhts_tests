@@ -15,7 +15,15 @@ Set the Perl module to be findable:
   export PERL5LIB=$PERL5LIB:/path/to/GBrowse-Adaptors/Bio-SamTools/blib/lib
 
 Set the loadable object to be findable:
-  perl -I /path/to/GBrowse-Adaptors/Bio-SamTools/blib/arch/auto/Bio/DB/Sam/
+  perl -I /path/to/GBrowse-Adaptors/Bio-SamTools/blib/arch/auto/Bio/DB/Sam/ read5.pl
+
+Add the htslib 
+  export LD_LIBRARY_PATH=/path/to/libhts.so
+
+
+#Run tests
+
+
 
 
 
