@@ -6,22 +6,23 @@
 use Bio::DB::Sam ;
 
 
-@test_files = ('some nonsense','yeast.cram') ;
+@test_files = ('data/some nonsense','data/yeast.sorted.cram','data/yeast.sorted.bam','data/yeast.unsorted.sam') ;
 
 
 for $f (@test_files)
 {
-  printf "Getting Reads from $f\n" ;
-  $read_fh = open($f) ;
+  printf "\nGetting Reads from $f\n" ;
+  $read_fh = Bio::DB::HTS->open($f,"r") ;
   if( $read_fh )
   {
     printf( "\tFile open successful.\n" ) ;
+    
+    $read_fh->close() ;
   }
   else
   {
-        printf( "\tError:File not opened.\n" ) ;
+    printf( "\tError:File not opened.\n" ) ;
   }
-  close($read_fh) ;
 }
 
 
