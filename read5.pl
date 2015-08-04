@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 
 #
-# Test read 1 from SAM/BAM?CRAM file formats.
+# Test read 1 from SAM/BAM/CRAM file formats.
 #
 use Bio::DB::HTS ;
 
