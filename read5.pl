@@ -16,7 +16,7 @@ for my $f (@test_files)
   my $read_fh = Bio::DB::HTS->open($f,"r") ;
   if( $read_fh )
   {
-    printf( "\tFile open successful.\n" ) ;
+    printf( "File open successful.\n" ) ;
 
     my $header = $read_fh->header_read() ;
 
@@ -25,12 +25,12 @@ for my $f (@test_files)
       my $alignment = Bio::DB::HTS::Alignment->new() ;
       $read_fh->read1($header,$alignment) ;
       my $qseq = $alignment->qseq() ;
-      printf( "raw alignment details:" ) ;
+      printf( "  raw alignment qseq:" ) ;
       printf( "$qseq\n" ) ;
     }
 
     $read_fh->close() ;
-    printf( "\tFile closed.\n" ) ;
+    printf( "File closed.\n" ) ;
   }
   else
   {
