@@ -7,21 +7,23 @@ use Bio::DB::HTS ;
 
 use strict ;
 
-my @test_files = ('data/yeast.sorted.cram','data/yeast.sorted.bam','data/yeast.unsorted.sam') ;
+my @test_files = ('data/yeast.sorted.bam','data/yeast.sorted.cram','data/yeast.unsorted.sam') ;
 my $fasta_file = "data/yeast.fasta" ;
 my $sequence_id = "VII" ;
 
-print( "High Level tests for $sequence_id\n" ) ;
+print( "da:High Level tests for $sequence_id\n" ) ;
 for my $f (@test_files)
 {
- print( "File:$f\n" ) ;
+ print( "da:Opening File:$f\n" ) ;
  # high level API
- my $sam = Bio::DB::HTS->new(-bam  =>$f,
+ my $hts = Bio::DB::HTS->new(-bam  =>$f,
                              -fasta=>$fasta_file,
 			     );
-
- my @targets    = $sam->seq_ids;
- my @alignments = $sam->get_features_by_location(-seq_id => $sequence_id,
+ print( "da:File Opened Successfully\n" ) ;
+ my @targets    = $hts->seq_ids; 
+ my $num_targets = scalar @targets ;
+ print("$num_targets targets found\n") ;
+ my @alignments = $hts->get_features_by_location(-seq_id => $sequence_id,
                                                  -start  => 50,
                                                  -end    => 5000);
  my $num_alignments = scalar @alignments ;
@@ -49,7 +51,7 @@ for my $f (@test_files)
     print( "$cigar\n" ) ;
  }
 
- my @pairs = $sam->get_features_by_location(-type   => 'read_pair',
+ my @pairs = $hts->get_features_by_location(-type   => 'read_pair',
                                             -seq_id => $sequence_id,
                                             -start  => 500,
                                             -end    => 800);
