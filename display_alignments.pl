@@ -7,20 +7,25 @@ use Bio::DB::HTS ;
 
 use strict ;
 
-my @test_files = ('data/file fail to open test','data/yeast.sorted.cram','data/yeast.sorted.bam','data/yeast.unsorted.sam') ;
+my @test_files = ('data/yeast.sorted.cram','data/yeast.sorted.bam','data/yeast.unsorted.sam') ;
 my $fasta_file = "data/yeast.fasta" ;
+my $sequence_id = "VII" ;
 
+print( "High Level tests for $sequence_id\n" ) ;
 for my $f (@test_files)
 {
+ print( "File:$f\n" ) ;
  # high level API
- my $sam = Bio::DB::HTS->new(-bam  =>"data/ex1.bam",
-                             -fasta=>"data/ex1.fa",
+ my $sam = Bio::DB::HTS->new(-bam  =>$f,
+                             -fasta=>$fasta_file,
 			     );
 
  my @targets    = $sam->seq_ids;
- my @alignments = $sam->get_features_by_location(-seq_id => 'seq2',
-                                                 -start  => 500,
-                                                 -end    => 800);
+ my @alignments = $sam->get_features_by_location(-seq_id => $sequence_id,
+                                                 -start  => 50,
+                                                 -end    => 5000);
+ my $num_alignments = scalar @alignments ;
+ print("$num_alignments alignments found\n") ;
  for my $a (@alignments)
  {
     # where does the alignment start in the reference sequence
@@ -40,10 +45,12 @@ for my $f (@test_files)
 
     my @scores    = $a->qscore;     # per-base quality scores
     my $match_qual= $a->qual;       # quality of the match
+
+    print( "$cigar\n" ) ;
  }
 
  my @pairs = $sam->get_features_by_location(-type   => 'read_pair',
-                                            -seq_id => 'seq2',
+                                            -seq_id => $sequence_id,
                                             -start  => 500,
                                             -end    => 800);
 
@@ -54,31 +61,6 @@ for my $f (@test_files)
     my $f_start = $first_mate->start;
     my $s_start = $second_mate->start;
  }
-
- # low level API
- my $bam          = Bio::DB::HTS->open('/path/to/bamfile');
- my $header       = $bam->header;
- my $target_count = $header->n_targets;
- my $target_names = $header->target_name;
- while (my $align = $bam->read1) {
-    my $seqid     = $target_names->[$align->tid];
-    my $start     = $align->pos+1;
-    my $end       = $align->calend;
-    my $cigar     = $align->cigar_str;
- }
-
- my $index = Bio::DB::HTS->index_open('/path/to/bamfile');
- my $index = Bio::DB::HTS->index_open_in_safewd('/path/to/bamfile');
-
- my $callback = sub {
-     my $alignment = shift;
-     my $start       = $alignment->start;
-     my $end         = $alignment->end;
-     my $seqid       = $target_names->[$alignment->tid];
-     print $alignment->qname," aligns to $seqid:$start..$end\n";
- }
- my $header = $index->header;
- $index->fetch($bam,$header->parse_region('seq2'),$callback);
 
 }
 
