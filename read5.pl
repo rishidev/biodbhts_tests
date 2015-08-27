@@ -22,8 +22,7 @@ for my $f (@test_files)
 
     for(my $i=0 ; $i <= 5 ; $i++)
     {
-      my $alignment = Bio::DB::HTS::Alignment->new() ;
-      $read_fh->read1($header,$alignment) ;
+      my $alignment = $read_fh->read1($header) ;
       my $qseq = $alignment->qseq() ;
       printf( "  raw alignment qseq:" ) ;
       printf( "$qseq\n" ) ;
@@ -37,9 +36,3 @@ for my $f (@test_files)
     printf( "\tError:File not opened.\n" ) ;
   }
 }
-
-
-
-
-
-
