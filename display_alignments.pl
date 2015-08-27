@@ -16,16 +16,18 @@ for my $f (@test_files)
 {
  print( "da:Opening File:$f\n" ) ;
  # high level API
- my $hts = Bio::DB::HTS->new(-bam  =>$f,
-                             -fasta=>$fasta_file,
-			     );
+ my $hts = Bio::DB::HTS->new(-bam  => $f,
+                             -fasta => $fasta_file,
+                             -autoindex => 1,
+			     ) ;
  print( "da:File Opened Successfully\n" ) ;
- my @targets    = $hts->seq_ids; 
+ my @targets    = $hts->seq_ids ;
  my $num_targets = scalar @targets ;
  print("$num_targets targets found\n") ;
  my @alignments = $hts->get_features_by_location(-seq_id => $sequence_id,
                                                  -start  => 50,
-                                                 -end    => 5000);
+                                                 -end    => 5000,
+                                                 ) ;
  my $num_alignments = scalar @alignments ;
  print("$num_alignments alignments found\n") ;
  for my $a (@alignments)
@@ -65,9 +67,3 @@ for my $f (@test_files)
  }
 
 }
-
-
-
-
-
-
