@@ -1,6 +1,6 @@
 
-export PERL5LIB=/home/rishi/coding/sam_originals
-export LD_LIBRARY_PATH=/home/rishi/coding/sam_originals
+export PERL5LIB=/home/rishi/coding/sam_originals/GBrowse-Adaptors-GMOD/Bio-SamTools/lib
+export LD_LIBRARY_PATH=/home/rishi/coding/sam_originals/samtools-0.1.19
 
-perl -I /home/rishi/coding/sam_originals/Bio-HTS/blib/arch/auto/Bio/DB/HTS read5_olde.pl
-perl -I /home/rishi/coding/sam_originals/Bio-HTS/blib/arch/auto/Bio/DB/HTS display_alignments_olde.pl
+perl read5_olde.pl
+# perl -I ...  display_alignments_olde.pl
