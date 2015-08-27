@@ -3,11 +3,11 @@
 #
 # Display alignments across SAM/BAM/CRAM file formats.
 #
-use Bio::DB::HTS ;
+use Bio::DB::Sam ;
 
 use strict ;
 
-my @test_files = ('data/yeast.sorted.bam','data/yeast.sorted.cram','data/yeast.unsorted.sam') ;
+my @test_files = ('data/yeast.sorted.bam') ;
 my $fasta_file = "data/yeast.fasta" ;
 my $sequence_id = "VII" ;
 
@@ -16,10 +16,7 @@ for my $f (@test_files)
 {
  print( "da:Opening File:$f\n" ) ;
  # high level API
- my $hts = Bio::DB::HTS->new(-bam  => $f,
-                             -fasta => $fasta_file,
-                             -autoindex => 1,
-			     ) ;
+ my $hts = Bio::DB::Bam->open($fasta_file) ;
  print( "da:File Opened Successfully\n" ) ;
  my @targets    = $hts->seq_ids ;
  my $num_targets = scalar @targets ;
@@ -65,5 +62,5 @@ for my $f (@test_files)
     my $f_start = $first_mate->start;
     my $s_start = $second_mate->start;
  }
-
+ $hts->DESTROY() ;
 }

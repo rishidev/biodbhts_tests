@@ -22,13 +22,13 @@ for my $f (@test_files)
 
     for(my $i=0 ; $i <= 5 ; $i++)
     {
-      my $alignment = $read_fh->read1($header) ;
+      my $alignment = $read_fh->read1() ;
       my $qseq = $alignment->qseq() ;
       printf( "  raw alignment qseq:" ) ;
       printf( "$qseq\n" ) ;
     }
 
-    $read_fh->close() ;
+    $read_fh->DESTROY() ;
     printf( "File closed.\n" ) ;
   }
   else
