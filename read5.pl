@@ -13,7 +13,7 @@ my @test_files = ('data/file fail to open test','data/yeast.sorted.cram','data/y
 for my $f (@test_files)
 {
   printf "\nGetting Reads from $f\n" ;
-  my $read_fh = Bio::DB::HTS->open($f,"r") ;
+  my $read_fh = Bio::DB::HTSfile->open($f,"r") ;
   if( $read_fh )
   {
     printf( "File open successful.\n" ) ;
