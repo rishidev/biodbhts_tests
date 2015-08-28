@@ -15,9 +15,12 @@ print( "da:High Level tests for $sequence_id\n" ) ;
 for my $f (@test_files)
 {
  print( "da:Opening File:$f\n" ) ;
- # high level API
- my $hts = Bio::DB::Bam->open($fasta_file) ;
+ my $hts = Bio::DB::Sam->new(-bam  =>$f,
+                             -fasta=>$fasta_file,
+                             -autoindex => 1,
+			     );
  print( "da:File Opened Successfully\n" ) ;
+
  my @targets    = $hts->seq_ids ;
  my $num_targets = scalar @targets ;
  print("$num_targets targets found\n") ;
