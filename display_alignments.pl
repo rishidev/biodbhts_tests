@@ -7,7 +7,7 @@ use Bio::DB::HTS ;
 
 use strict ;
 
-my @test_files = ('data/yeast.sorted.bam','data/yeast.sorted.cram','data/yeast.unsorted.sam') ;
+my @test_files = ('data/yeast.sorted.bam','data/yeast.unsorted.sam','data/yeast.sorted.cram') ;
 my $fasta_file = "data/yeast.fasta" ;
 my $sequence_id = "VII" ;
 
