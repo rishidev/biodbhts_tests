@@ -19,7 +19,7 @@ for my $f (@test_files)
     printf( "File open successful.\n" ) ;
 
     my $header = $read_fh->header_read() ;
-    my $index = Bio::DB::HTSfile->index_open($f) ;
+    my $index = $read_fh->index_open($f) ;
 
     if( defined $index )
     {
