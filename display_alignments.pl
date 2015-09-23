@@ -53,6 +53,7 @@ for my $f (@test_files)
     print( "$cigar\n" ) ;
  }
 
+ print("Displaying read pair information\n") ;
  my @pairs = $hts->get_features_by_location(-type   => 'read_pair',
                                             -seq_id => $sequence_id,
                                             -start  => 500,
@@ -61,6 +62,7 @@ for my $f (@test_files)
  for my $pair (@pairs)
  {
     my $length                    = $pair->length;   # insert length
+    print( "This pairs insert length:$length\n" ) ;
     my ($first_mate,$second_mate) = $pair->get_SeqFeatures;
     my $f_start = $first_mate->start;
     my $s_start = $second_mate->start;
