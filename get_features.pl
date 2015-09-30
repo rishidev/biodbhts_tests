@@ -25,13 +25,18 @@ for my $f (@test_files)
 
   my @pairs = $hts->get_features_by_location(-type   => 'read_pair',
                                             -seq_id => $sequence_id,
-                                            -start  => 500,
+                                            -start  => 0,
                                             -end    => 800);
 
+  my $num_pairs = scalar @pairs ;
+  print("gf:$num_pairs pairs found\n") ;
   for my $pair (@pairs)
   {
     my $length                    = $pair->length;   # insert length
+    print( "gf:\tThis pair insert length:$length\n" ) ;
     my ($first_mate,$second_mate) = $pair->get_SeqFeatures;
+    print( "gf:\tfirst mate:$first_mate\n" ) ;
+    print( "gf:\tsecond mate:$second_mate\n" ) ;
     my $f_start = $first_mate->start;
     my $s_start = $second_mate->start;
   }
