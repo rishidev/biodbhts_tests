@@ -52,6 +52,6 @@ for my $f (@test_files)
 
     print( "$cigar\n" ) ;
  }
-
+ $hts->close() ;
 
 }

@@ -28,6 +28,13 @@ for my $f (@test_files)
                                             -start  => 500,
                                             -end    => 800);
 
-
+  for my $pair (@pairs)
+  {
+    my $length                    = $pair->length;   # insert length
+    my ($first_mate,$second_mate) = $pair->get_SeqFeatures;
+    my $f_start = $first_mate->start;
+    my $s_start = $second_mate->start;
+  }
+  $hts->close() ;
 
 }
