@@ -35,6 +35,6 @@ for my $f (@test_files)
     my $f_start = $first_mate->start;
     my $s_start = $second_mate->start;
   }
-  $hts->close() ;
+  $hts->hts_file->close() ;
 
 }
