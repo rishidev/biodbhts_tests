@@ -11,6 +11,6 @@ use Data::Dumper;
 my $DEBUG = 1;
 my $url = "http://www.ebi.ac.uk/~rishi/test_files/small_brainz.2.bam" ;
 
-$adaptor = Bio::EnsEMBL::IO::Adaptor::HTSAdaptor->new($url);
+my $adaptor = Bio::EnsEMBL::IO::Adaptor::HTSAdaptor->new($url);
 $adaptor->fetch_alignments_filtered("Z", "9897818", "9987257");
-print "Exiting" ;
+print "Exiting\n" ;
