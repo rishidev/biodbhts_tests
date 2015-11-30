@@ -26,7 +26,7 @@ for my $f (@test_files)
   my @pairs = $hts->get_features_by_location(-type   => 'read_pair',
                                             -seq_id => $sequence_id,
                                             -start  => 0,
-                                            -end    => 800);
+                                            -end    => 2800);
 
   my $num_pairs = scalar @pairs ;
   print("gf:$num_pairs pairs found\n") ;
