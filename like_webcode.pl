@@ -23,7 +23,7 @@ for my $f (@test_files)
   print("\nrn6DEBUG:AttachedFormat-BAM-htsfile set          \n") ;
   $index = Bio::DB::HTSfile->index($hts) ;
   print("\nrn6DEBUG:AttachedFormat-BAM-file indexed         \n") ;
-  my $header = $hts_file->header;
+  my $header = $hts->header;
   my $region = $header->target_name->[0];
   my $callback = sub {return 1};
   print("\nrn6DEBUG:AttachedFormat-BAM-fetch calling for $region     \n") ;
