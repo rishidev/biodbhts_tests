@@ -87,10 +87,22 @@ my $coverage =
 my $c = scalar @$coverage ;
 print( "Coverage c:".$c."\n" );
 my @cov = sort { $a <=> $b } @$coverage;
-for my $c (@cov)
-{
-  printf($c."\n") ;
-}
 
 print( "c0:".$cov[0]."\n" ) ;
 print( "c-1:".$cov[-1]."\n" ) ;
+
+
+
+print( "------- HIGH LEVEL (LOCAL FILE) ---------\n" ) ;
+for my $use_fasta ( 0, 1 )
+{
+    my $hts = Bio::DB::HTS->new(
+                                 -bam          => $cramfile,
+                                 -expand_flags => 1,
+                                 -autoindex    => 1,
+                                 -force_refseq => $use_fasta, );
+    print( "file contains ".$hts->n_targets." targets\n" ) ;
+    $hts->seq_ids
+    print( "seq_ids ".." targets\n" ) ;
+
+}
