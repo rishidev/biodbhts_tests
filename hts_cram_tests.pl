@@ -24,8 +24,9 @@ print( "------- header text ---------\n" ) ;
 print($header->text) ;
 
 print( "------- FAIDX ---------\n" ) ;
+my $region = 'X:51-1000' ;
 my $fai = Bio::DB::HTS::Fai->open("data/yeast.fasta");
-my $seq = $fai->fetch('X:51-1000');
+my $seq = $fai->fetch( $region );
 my $seq_length = length $seq ;
 print( "seq_length:$seq_length\n" ) ;
 
@@ -34,4 +35,62 @@ while ( my $b = $hts_file->read1($header) )
 {
   $count++ ;
 }
-print("read count:$count\n") ;
+print("Total read count:$count\n") ;
+
+
+my @result = $header->parse_region($region);
+my $num_results = scalar @result ;
+print("$region read count:$num_results\n") ;
+foreach my $r (@result)
+{
+  print("$r\n") ;
+}
+
+print( "------- Index ---------\n" ) ;
+Bio::DB::HTSfile->index_build($cramfile);
+my $index = Bio::DB::HTSfile->index_load($hts_file);
+
+my @a;
+my $print_region = sub {
+        my ( $alignment, $data ) = @_;
+        push @a, $alignment;
+        return;
+    };
+
+$index->fetch( $hts_file, $header->parse_region($region),
+                   $print_region, "foobar" );
+
+    my %matches;
+    my $fetch_back = sub {
+        my ( $tid, $pos, $p ) = @_;
+        my $p1 = $pos + 1;
+        my $r  = $fai->fetch( $header->target_name->[$tid] . ":$p1-$p1" );
+        for my $pileup (@$p) {
+            my $b    = $pileup->b;
+            my $qpos = $pileup->qpos;
+            my $base =
+              $pileup->indel == 0 ? substr( $b->qseq, $qpos, 1 ) :
+              $pileup->indel > 0 ? '*' :
+              '-';
+            $matches{matched}++ if $r eq $base;
+            $matches{total}++;
+        }
+    };
+
+
+$index->pileup( $hts_file, $header->parse_region($region), $fetch_back );
+print("Matches matched:".$matches{matched}."\n") ;
+print("Matches total:".$matches{total}."\n") ;
+
+my $coverage =
+      $index->coverage( $hts_file, $header->parse_region('II'), 100, 100000 );
+my $c = scalar @$coverage ;
+print( "Coverage c:".$c."\n" );
+my @cov = sort { $a <=> $b } @$coverage;
+for my $c (@cov)
+{
+  printf($c."\n") ;
+}
+
+print( "c0:".$cov[0]."\n" ) ;
+print( "c-1:".$cov[-1]."\n" ) ;
