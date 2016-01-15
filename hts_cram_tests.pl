@@ -96,13 +96,95 @@ print( "c-1:".$cov[-1]."\n" ) ;
 print( "------- HIGH LEVEL (LOCAL FILE) ---------\n" ) ;
 for my $use_fasta ( 0, 1 )
 {
+    print("------ use_fasta $use_fasta -------\n") ;
     my $hts = Bio::DB::HTS->new(
+                                 -fasta => "data/yeast.fasta",
                                  -bam          => $cramfile,
                                  -expand_flags => 1,
                                  -autoindex    => 1,
                                  -force_refseq => $use_fasta, );
     print( "file contains ".$hts->n_targets." targets\n" ) ;
-    $hts->seq_ids
-    print( "seq_ids ".." targets\n" ) ;
+    my $joined_seq_ids = join $hts->seq_ids ;
+    print( "joined_seq_ids:".$joined_seq_ids."\n" ) ;
+#    print( "seq_ids 5".$hts->seq_ids[5]."\n" ) ;
+#    print( "seq_ids 10".$hts->seq_ids[10]."\n" ) ;
+
+    my $seg = $hts->segment('I');
+    print( "Segment I length ".$seg->length."\n" ) ;
+    my $seq = $seg->seq;
+    print( "isa Bio::PrimarySeq=".$seq->isa('Bio::PrimarySeq')."\n" );
+
+#now test the alignments
+    my @alignments =
+      $hts->get_features_by_location( -seq_id => 'I',
+                                      -start  => 500,
+                                      -end    => 20000 );
+    my $num_alignments = scalar @alignments ;
+    print( "num_alignments $num_alignments\n" ) ;
+
+    my $qscore = scalar @{ $alignments[0]->qscore } ;
+    my $dnalength = length $alignments[0]->dna ;
+    print( "alignment 0 qscore ".$qscore."\n" ) ;
+    print( "alignment 0 dna length ".$dnalength."\n" ) ;
+
+# keys
+    my @keys = $alignments[5]->get_all_tags;
+
+    my %att = $alignments[5]->attributes;
+    print( "num attributes ".scalar( keys %att )."\n" );
+    foreach $a (sort(keys %att))
+    {
+        print $a, '=', $att{$a}, "\n";
+    }
+    print( "CIGAR:".$alignments[5]->cigar_str."\n") ;
+
+
+    my $query = $alignments[0]->query;
+    print( "".$query->start."\n" ) ;
+    print( "".$query->end."\n" ) ;
+    print( "".$query->length."\n" ) ;
+    print( "".$query->dna."\n" ) ;
+    print( "".$alignments[0]->dna."\n" ) ;
+    print( "".$alignments[0]->strand."\n" ) ;
+    print( "".$query->strand."\n" ) ;
+
+    my $target = $alignments[0]->target;
+    print( "target start".$target->start."\n" ) ;
+    print( "target end".$target->end."\n" ) ;
+    print( "target length".$target->length."\n" ) ;
+    print( "".$target->dna."\n" ) ;
+    print( "".reversec( $alignments[0]->dna )."\n" ) ;
+
+    my @pads = $alignments[0]->padded_alignment;
+    $a = scalar @pads ;
+    print( "num pads".$a."\n");
+    for $a (@pads)
+    {
+      print( $a."\n" ) ;
+    }
+
+
+
 
 }
+
+
+print("-------------BAM version of tests-----------------\n") ;
+my $hts = Bio::DB::HTS->new( -fasta        => "/home/rishi/coding/hts_dev/Bio-HTS/t/data/ex1.fa",
+                                 -bam          => "/home/rishi/coding/hts_dev/Bio-HTS/t/data/ex1.bam",
+                                 -expand_flags => 1,
+                                 -autoindex    => 1,
+                                 -force_refseq => 1, );
+
+print( "file contains ".$hts->n_targets." targets\n" ) ;
+my $joined_seq_ids = join $hts->seq_ids ;
+print( "joined_seq_ids:".$joined_seq_ids."\n" ) ;
+
+
+sub reversec {
+    my $dna = shift;
+    $dna =~ tr/gatcGATC/ctagCTAG/;
+    return scalar reverse $dna;
+}
+
+__END__
