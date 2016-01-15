@@ -149,9 +149,9 @@ for my $use_fasta ( 0, 1 )
     print( "".$query->strand."\n" ) ;
 
     my $target = $alignments[0]->target;
-    print( "target start".$target->start."\n" ) ;
-    print( "target end".$target->end."\n" ) ;
-    print( "target length".$target->length."\n" ) ;
+    print( "target start=".$target->start."\n" ) ;
+    print( "target end=".$target->end."\n" ) ;
+    print( "target length=".$target->length."\n" ) ;
     print( "".$target->dna."\n" ) ;
     print( "".reversec( $alignments[0]->dna )."\n" ) ;
 
@@ -164,7 +164,7 @@ for my $use_fasta ( 0, 1 )
     }
 
 #features
-    my @features = $hts->features() ;
+    my @features = $hts->features( -name => 'SRR507778.24982' ) ;
     $a = scalar @features ;
     print( "num features:".$a."\n");
 
@@ -181,6 +181,10 @@ my $hts = Bio::DB::HTS->new( -fasta        => "/home/rishi/coding/hts_dev/Bio-HT
 print( "file contains ".$hts->n_targets." targets\n" ) ;
 my $joined_seq_ids = join $hts->seq_ids ;
 print( "joined_seq_ids:".$joined_seq_ids."\n" ) ;
+
+my @features = $hts->features( -name => 'EAS114_45:2:1:1140:1206' ) ;
+$a = scalar @features ;
+print( "num features:".$a."\n");
 
 
 sub reversec {
