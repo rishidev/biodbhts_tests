@@ -163,8 +163,10 @@ for my $use_fasta ( 0, 1 )
       print( $a."\n" ) ;
     }
 
-
-
+#features
+    my @features = $hts->features() ;
+    $a = scalar @features ;
+    print( "num features:".$a."\n");
 
 }
 
