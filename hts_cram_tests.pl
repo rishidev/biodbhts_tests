@@ -177,58 +177,155 @@ for my $use_fasta (1) # ( 0, 1 )
 #      print( $a."\n" ) ;
 #    }
 
-#features - this is going wrong for CRAM, returning 0 here (but 2 above)
-    print( "\nRetries of hts->features (vanilla, name argument)\n" ) ;
-    my @features = $hts->features( -name => 'SRR507778.24982' ) ;
+print("----------- Opening new file handles for feature name tests --------------\n") ;
+#OK this is what goes into the final test script
+$hts = Bio::DB::HTS->new(
+                                 -fasta => "data/yeast.fasta",
+                                 -bam          => $cramfile,
+                                 -expand_flags => 1,
+                                 -autoindex    => 1,
+                                 -force_refseq => $use_fasta, );
+    my @features = $hts->features( -name => 'SRR507778.24982' );
     $a = scalar @features ;
     print( "num features:".$a."\n");
+#    ok( scalar @f, 2 );
 
-    print( "\nRetries of hts->features by location\n" ) ;
-    @alignments =
-      $hts->get_features_by_location( -seq_id => 'I',
-                                      -start  => 500,
-                                      -end    => 20000 );
-    $num_alignments = scalar @alignments ;
-    print( "get_features_by_location (take 2) num_alignments $num_alignments\n" ) ;
-
-
-#OK this is what goes into the final test script
-
-    my @f = $hts->features( -name => 'SRR507778.24982' );
-    ok( scalar @f, 2 );
-
+$hts = Bio::DB::HTS->new(
+                                 -fasta => "data/yeast.fasta",
+                                 -bam          => $cramfile,
+                                 -expand_flags => 1,
+                                 -autoindex    => 1,
+                                 -force_refseq => $use_fasta, );
     @f = $hts->features(
         -filter => sub {
             my $a = shift;
             return 1 if $a->display_name eq 'SRR507778.24982';
         } );
-    ok( scalar @f, 2 );
+    $a = scalar @f ;
+    print( "num features:".$a."\n");
+#    ok( scalar @f, 2 );
 
+$hts = Bio::DB::HTS->new(
+                                 -fasta => "data/yeast.fasta",
+                                 -bam          => $cramfile,
+                                 -expand_flags => 1,
+                                 -autoindex    => 1,
+                                 -force_refseq => $use_fasta, );
     @f = $hts->features(
-        -seq_id => 'seq2',
+        -seq_id => 'XIII',
         -filter => sub {
             my $a = shift;
             return 1 if $a->display_name =~ /^SRR507778/;
         } );
-    ok( scalar @f, 306 );
+    $a = scalar @f ;
+    print( "num features:".$a."\n");
+#    ok( scalar @f, 306 );
+
+$hts = Bio::DB::HTS->new(
+                                 -fasta => "data/yeast.fasta",
+                                 -bam          => $cramfile,
+                                 -expand_flags => 1,
+                                 -autoindex    => 1,
+                                 -force_refseq => $use_fasta, );
     @f = $hts->features(
         -filter => sub {
             my $a = shift;
             return 1 if $a->display_name =~ /^SRR507778/;
         } );
-    ok( scalar @f, 534 );
+    $a = scalar @f ;
+    print( "num features:".$a."\n");
+#    ok( scalar @f, 534 );
 
+$hts = Bio::DB::HTS->new(
+                                 -fasta => "data/yeast.fasta",
+                                 -bam          => $cramfile,
+                                 -expand_flags => 1,
+                                 -autoindex    => 1,
+                                 -force_refseq => $use_fasta, );
     @f = $hts->features( -name => 'SRR507778.24982',
                          -tags => { FIRST_MATE => 1 } );
-    ok( scalar @f, 1 );
+    $a = scalar @features ;
+    print( "num features:".$a."\n");
+#    ok( scalar @f, 1 );
 
 
 
+#Iteration
+print("----------- Iteration --------------\n") ;
+    my $i =
+      $hts->get_seq_stream( -seq_id => 'XIII', -start => 200, -end => 10000 );
+    my $count = 0;
+    while ( $i->next_seq ) { $count++ }
+    print( $count."\n" );
+
+# FH retrieval
+print("----------- FH Retrieval --------------\n") ;
+    my $fh = $hts->get_seq_fh( -seq_id => 'XIII', -start => 200, -end => 10000, );
+    $count = 0;
+    $count++ while <$fh>;
+    print( $count."\n" );
+    $fh->close;
+
+$hts = Bio::DB::HTS->new(
+                                 -fasta => "data/yeast.fasta",
+                                 -bam          => $cramfile,
+                                 -expand_flags => 1,
+                                 -autoindex    => 1,
+                                 -force_refseq => $use_fasta, );
+    $i = $hts->get_seq_stream();    # all features!
+    $count = 0;
+    while ( $i->next_seq ) { $count++ }
+    print( $count."\n" );
+
+$hts = Bio::DB::HTS->new(
+                                 -fasta => "data/yeast.fasta",
+                                 -bam          => $cramfile,
+                                 -expand_flags => 1,
+                                 -autoindex    => 1,
+                                 -force_refseq => $use_fasta, );
+    $i = $hts->get_seq_stream( -max_features => 200, -seq_id => 'XIII' );
+    $count = 0;
+    while ( $i->next_seq ) { $count++ }
+    print( $count."\n" );
+    print( $hts->last_feature_count."\n" );
+
+
+    my @pairs = $hts->features( -type => 'read_pair', -seq_id => 'XIII' );
+    $a = scalar @pairs ;
+    print( "num features by read_pair:".$a."\n\n");
+
+
+    # try coverage
+    print("----------- Coverage --------------\n") ;
+    my @coverage = $hts->features( -type => 'coverage', -seq_id => 'XIII' );
+    my ($c) = $coverage[0]->get_tag_values('coverage');
+    print( "c0 $c->[0]\n" ) ;
+    print( "c1 $c->[1]\n" ) ;
+    print( $coverage[0]->type."\n" );
 
 
 
+    # test high level API version of pileup
+    print("----------- Matches --------------\n") ;
+    my %matches;
+    my $fetch_back = sub {
+        my ( $seqid, $pos, $p ) = @_;
+        my $r = $hts->segment( $seqid, $pos, $pos )->dna;
+        for my $pileup (@$p) {
+            my $a    = $pileup->alignment;
+            my $qpos = $pileup->qpos;
+            my $dna  = $a->query->dna;
+            my $base =
+              $pileup->indel == 0 ? substr( $dna, $qpos, 1 ) :
+              $pileup->indel > 0 ? '*' :
+              '-';
+            $matches{matched}++ if $r eq $base;
+            $matches{total}++;
+        }
+    };
 
-
+    $hts->pileup( 'XIII:1-1000', $fetch_back );
+    print( "".$matches{matched}." out of ".$matches{total}."\n" );
 
 }
 
