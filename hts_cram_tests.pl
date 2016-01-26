@@ -7,6 +7,8 @@ use Bio::DB::HTS::AlignWrapper;
 
 my $cramfile = "data/yeast.sorted.cram";
 
+my $do_low_level_tests=0 ;
+
 if( $do_low_level_tests )
 {
   printf("------------LOW LEVEL API-----------------\n") ;
@@ -19,8 +21,6 @@ if( $do_low_level_tests )
   my $target_names = $header->target_name;
   my $target_lens = $header->target_len;
   my $num_targets = scalar @$target_names ;
-
-  my $do_low_level_tests = 0 ;
 
   print( "------- $num_targets targets ---------\n" ) ;
   print($target_names->[0].":".$target_lens->[0]."\n");
@@ -98,7 +98,7 @@ if( $do_low_level_tests )
 }
 
 print( "------- HIGH LEVEL (LOCAL FILE) ---------\n" ) ;
-for my $use_fasta (1) # ( 0, 1 )
+for my $use_fasta (0) # ( 0, 1 )
 {
     print("------ use_fasta $use_fasta -------\n") ;
     my $hts = Bio::DB::HTS->new(
@@ -142,40 +142,40 @@ for my $use_fasta (1) # ( 0, 1 )
     print( "alignment 0 dna length ".$dnalength."\n" ) ;
 
 # keys
-#    my @keys = $alignments[5]->get_all_tags;
+    my @keys = $alignments[5]->get_all_tags;
 
-#    my %att = $alignments[5]->attributes;
-#    print( "num attributes ".scalar( keys %att )."\n" );
-#    foreach $a (sort(keys %att))
-#    {
-#        print $a, '=', $att{$a}, "\n";
-#    }
-#    print( "CIGAR:".$alignments[5]->cigar_str."\n") ;
+    my %att = $alignments[5]->attributes;
+    print( "num attributes ".scalar( keys %att )."\n" );
+    foreach $a (sort(keys %att))
+    {
+        print $a, '=', $att{$a}, "\n";
+    }
+    print( "CIGAR:".$alignments[5]->cigar_str."\n") ;
 
 
-#    my $query = $alignments[0]->query;
-#    print( "".$query->start."\n" ) ;
-#    print( "".$query->end."\n" ) ;
-#    print( "".$query->length."\n" ) ;
-#    print( "".$query->dna."\n" ) ;
-#    print( "".$alignments[0]->dna."\n" ) ;
-#    print( "".$alignments[0]->strand."\n" ) ;
-#    print( "".$query->strand."\n" ) ;
+    my $query = $alignments[0]->query;
+    print( "".$query->start."\n" ) ;
+    print( "".$query->end."\n" ) ;
+    print( "".$query->length."\n" ) ;
+    print( "".$query->dna."\n" ) ;
+    print( "".$alignments[0]->dna."\n" ) ;
+    print( "".$alignments[0]->strand."\n" ) ;
+    print( "".$query->strand."\n" ) ;
 
-#    my $target = $alignments[0]->target;
-#    print( "target start=".$target->start."\n" ) ;
-#    print( "target end=".$target->end."\n" ) ;
-#    print( "target length=".$target->length."\n" ) ;
-#    print( "".$target->dna."\n" ) ;
-#    print( "".reversec( $alignments[0]->dna )."\n" ) ;
+    my $target = $alignments[0]->target;
+    print( "target start=".$target->start."\n" ) ;
+    print( "target end=".$target->end."\n" ) ;
+    print( "target length=".$target->length."\n" ) ;
+    print( "".$target->dna."\n" ) ;
+    print( "".reversec( $alignments[0]->dna )."\n" ) ;
 
-#    my @pads = $alignments[0]->padded_alignment;
-#    $a = scalar @pads ;
-#    print( "num pads".$a."\n");
-#    for $a (@pads)
-#    {
-#      print( $a."\n" ) ;
-#    }
+    my @pads = $alignments[0]->padded_alignment;
+    $a = scalar @pads ;
+    print( "num pads".$a."\n");
+    for $a (@pads)
+    {
+      print( $a."\n" ) ;
+    }
 
 print("----------- Opening new file handles for feature name tests --------------\n") ;
 #OK this is what goes into the final test script
@@ -244,7 +244,7 @@ $hts = Bio::DB::HTS->new(
                                  -force_refseq => $use_fasta, );
     @f = $hts->features( -name => 'SRR507778.24982',
                          -tags => { FIRST_MATE => 1 } );
-    $a = scalar @features ;
+    $a = scalar @f ;
     print( "num features:".$a."\n");
 #    ok( scalar @f, 1 );
 
@@ -266,7 +266,7 @@ print("----------- FH Retrieval --------------\n") ;
     print( $count."\n" );
     $fh->close;
 
-$hts = Bio::DB::HTS->new(
+    $hts = Bio::DB::HTS->new(
                                  -fasta => "data/yeast.fasta",
                                  -bam          => $cramfile,
                                  -expand_flags => 1,
@@ -275,9 +275,9 @@ $hts = Bio::DB::HTS->new(
     $i = $hts->get_seq_stream();    # all features!
     $count = 0;
     while ( $i->next_seq ) { $count++ }
-    print( $count."\n" );
+    print( $count." (all features)\n" );
 
-$hts = Bio::DB::HTS->new(
+    $hts = Bio::DB::HTS->new(
                                  -fasta => "data/yeast.fasta",
                                  -bam          => $cramfile,
                                  -expand_flags => 1,
@@ -296,6 +296,12 @@ $hts = Bio::DB::HTS->new(
 
 
     # try coverage
+    $hts = Bio::DB::HTS->new(
+                                 -fasta => "data/yeast.fasta",
+                                 -bam          => $cramfile,
+                                 -expand_flags => 1,
+                                 -autoindex    => 1,
+                                 -force_refseq => $use_fasta, );
     print("----------- Coverage --------------\n") ;
     my @coverage = $hts->features( -type => 'coverage', -seq_id => 'XIII' );
     my ($c) = $coverage[0]->get_tag_values('coverage');
