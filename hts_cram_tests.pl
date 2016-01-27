@@ -117,6 +117,10 @@ for my $use_fasta (0) # ( 0, 1 )
     my $seq = $seg->seq;
     print( "isa Bio::PrimarySeq=".$seq->isa('Bio::PrimarySeq')."\n" );
 
+    my $seg2 = $hts->segment('I',100,200);
+    print( "Segment I:100-200 length ".$seg2->length."\n" ) ;
+    print( "Segment I:100-200:".$seg2->dna."\n" ) ;
+
 #features - this is going wrong for CRAM, returning 2 here (but 0 below)
     print("\n\nVanilla name feature\n") ;
     my @features = $hts->features( -name => 'SRR507778.24982' ) ;
@@ -317,6 +321,7 @@ print("----------- FH Retrieval --------------\n") ;
     my $fetch_back = sub {
         my ( $seqid, $pos, $p ) = @_;
         my $r = $hts->segment( $seqid, $pos, $pos )->dna;
+        print("\nrn6DEBUG r in callback:".$r." at ".$seqid.":".$pos."\t");
         for my $pileup (@$p) {
             my $a    = $pileup->alignment;
             my $qpos = $pileup->qpos;
@@ -325,13 +330,14 @@ print("----------- FH Retrieval --------------\n") ;
               $pileup->indel == 0 ? substr( $dna, $qpos, 1 ) :
               $pileup->indel > 0 ? '*' :
               '-';
+            print("\tbase ".$base);
             $matches{matched}++ if $r eq $base;
             $matches{total}++;
         }
     };
 
     $hts->pileup( 'XIII:1-1000', $fetch_back );
-    print( "".$matches{matched}." out of ".$matches{total}."\n" );
+    print( "\n".$matches{matched}." out of ".$matches{total}."\n" );
 
 }
 
