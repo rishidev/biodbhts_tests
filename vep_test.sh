@@ -32,6 +32,6 @@ perl ../ensembl-tools/scripts/variant_effect_predictor/variant_effect_predictor.
 echo
 echo
 echo TEST 4
-perl ../ensembl-tools/scripts/variant_effect_predictor/variant_effect_predictor.pl -i ../ensembl-tools/scripts/variant_effect_predictor/example_GRCh38.vcf --offline --hgvs --fasta ~/.vep/homo_sapiens/83_GRCh38/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz --force_overwrite - o test4
+perl ../ensembl-tools/scripts/variant_effect_predictor/variant_effect_predictor.pl -i ../ensembl-tools/scripts/variant_effect_predictor/example_GRCh38.vcf --offline --hgvs --fasta ~/.vep/homo_sapiens/83_GRCh38/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz --force_overwrite -o test4
 
 
