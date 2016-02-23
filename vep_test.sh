@@ -7,15 +7,16 @@
 
 cd ../ensembl-tools/scripts/variant_effect_predictor
 
-export LD_LIBRARY_PATH=$PWD/htslib
+#export LD_LIBRARY_PATH=$PWD/htslib
 #$PWD/biodbhts/blib/arch/auto/Bio/DB/HTS:$PWD/biodbhts/blib/arch/auto/Bio/DB/HTS/Faidx
 #export PERL5LIB=/home/rishi/perl5/lib/perl5:$PWD/biodbhts/blib/arch/auto/
 
-#export LD_LIBRARY_PATH=
+export LD_LIBRARY_PATH=
 export PERL5LIB=
 
 echo $LD_LIBRARY_PATH
 echo $PERL5LIB
+echo $PATH
 echo
 echo TEST 1
 perl variant_effect_predictor.pl --check_ref -i example_GRCh38.vcf --force_overwrite --cache -o test1
