@@ -75,7 +75,7 @@ fi
 
 
 if [ "$2" = "BUILD_HTSLIB_DIR_ENV" ]; then
-    echo Installs htslib, then runs Build process
+    echo Makes htslib, then runs Build process
     git clone -b master --depth=1 https://github.com/samtools/htslib.git
     cd htslib
     make install
@@ -86,6 +86,7 @@ if [ "$2" = "BUILD_HTSLIB_DIR_ENV" ]; then
     cd Bio-HTS
     perl Build.PL
     ./Build
+    export PERL5LIB=$PERL5LIB:$(pwd -P)/lib:$(pwd -P)/blib/arch/auto/Bio/DB/HTS/:$(pwd -P)/blib/arch/auto/Bio/DB/HTS/Faidx
     cd t
     for f in $(ls *.t) ;
     do
@@ -96,7 +97,7 @@ if [ "$2" = "BUILD_HTSLIB_DIR_ENV" ]; then
 fi
 
 if [ "$2" = "BUILD_HTSLIB_DIR_FLAG" ]; then
-    echo Installs htslib, then runs Build process
+    echo makes htslib, then runs Build process
     git clone -b master --depth=1 https://github.com/samtools/htslib.git
     cd htslib
     make
