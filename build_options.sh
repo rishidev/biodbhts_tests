@@ -55,14 +55,15 @@ if [ "$2" = "BUILD_LOCAL_INSTALLED_HTSLIB" ]; then
     echo Installs htslib to a local dir, then runs Build process
     git clone -b master --depth=1 https://github.com/samtools/htslib.git
     cd htslib
-    make install --prefix=~/localsw
+    make prefix=~/localsw install
     export HTSLIB_DIR=
     cd ..
     $1
     cd Bio-HTS
     perl Build.PL --prefix=~/localsw
     ./Build
-    cd t
+    export PERL5LIB=$PERL5LIB:$(pwd -P)/lib:$(pwd -P)/blib/arch/auto/Bio/DB/HTS/:$(pwd -P)/blib/arch/auto/Bio/DB/HTS/Faidx
+    cd t    
     for f in $(ls *.t) ;
     do
         perl $f
