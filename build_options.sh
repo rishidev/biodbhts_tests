@@ -15,6 +15,8 @@ if [ "$2" = "BUILD" ]; then
     cd Bio-HTS
     perl Build.PL
     ./Build
+    export PERL5LIB_ORIG=$PERL5LIB
+    export PERL5LIB=$PERL5LIB:$(pwd -P)
     cd t
     for f in $(ls *.t) ;
     do
@@ -22,6 +24,7 @@ if [ "$2" = "BUILD" ]; then
     done
     echo "Completed $2"
     echo "Needs htslib installed or on LD_LIBRARY_PATH to pass"
+    export PERL5LIB=$PERL5LIB_ORIG
     exit 0
 fi
 
@@ -36,12 +39,15 @@ if [ "$2" = "BUILD_SYSTEM_INSTALLED_HTSLIB" ]; then
     cd Bio-HTS
     perl Build.PL
     ./Build
+    export PERL5LIB_ORIG=$PERL5LIB
+    export PERL5LIB=$PERL5LIB:$(pwd -P)
     cd t
     for f in $(ls *.t) ;
     do
         perl $f
     done
     echo "Completed $2"
+    export PERL5LIB=$PERL5LIB_ORIG
     exit 0
 fi
 
