@@ -10,25 +10,6 @@ export PERL5LIB_ORIG=$PERL5LIB
 #
 #test the Build.PL with various options
 #
-if [ "$2" = "BUILD" ]; then
-    echo Build.PL on its own
-    $1
-    cd Bio-HTS
-    perl Build.PL
-    ./Build    
-    export PERL5LIB=$PERL5LIB:$(pwd -P)/lib:$(pwd -P)/blib/arch/auto/Bio/DB/HTS/:$(pwd -P)/blib/arch/auto/Bio/DB/HTS/Faidx
-    cd t
-    for f in $(ls *.t) ;
-    do
-        perl $f
-    done
-    echo "Completed $2"
-    echo "Needs htslib installed or on LD_LIBRARY_PATH to pass"
-    export PERL5LIB=$PERL5LIB_ORIG
-    exit 0
-fi
-
-
 if [ "$2" = "BUILD_SYSTEM_INSTALLED_HTSLIB" ]; then
     echo Installs htslib, then runs Build process
     git clone -b master --depth=1 https://github.com/samtools/htslib.git
@@ -49,6 +30,26 @@ if [ "$2" = "BUILD_SYSTEM_INSTALLED_HTSLIB" ]; then
     export PERL5LIB=$PERL5LIB_ORIG
     exit 0
 fi
+
+if [ "$2" = "BUILD_SYSTEM_INSTALL_ALL" ]; then
+    echo Installs htslib, then runs Build process
+    git clone -b master --depth=1 https://github.com/samtools/htslib.git
+    cd htslib
+    sudo make install
+    cd ..
+    $1
+    cd Bio-HTS
+    perl Build.PL
+    ./Build install
+    cd t
+    for f in $(ls *.t) ;
+    do
+        perl $f
+    done
+    echo "Completed $2"
+    exit 0
+fi
+
 
 if [ "$2" = "BUILD_LOCAL_INSTALLED_HTSLIB" ]; then
     echo Installs htslib to a local dir, then runs Build process
