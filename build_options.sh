@@ -16,7 +16,7 @@ if [ "$2" = "BUILD" ]; then
     perl Build.PL
     ./Build
     export PERL5LIB_ORIG=$PERL5LIB
-    export PERL5LIB=$PERL5LIB:$(pwd -P)
+    export PERL5LIB=$PERL5LIB:$(pwd -P)/lib
     cd t
     for f in $(ls *.t) ;
     do
@@ -40,7 +40,7 @@ if [ "$2" = "BUILD_SYSTEM_INSTALLED_HTSLIB" ]; then
     perl Build.PL
     ./Build
     export PERL5LIB_ORIG=$PERL5LIB
-    export PERL5LIB=$PERL5LIB:$(pwd -P)
+    export PERL5LIB=$PERL5LIB:$(pwd -P)/lib
     cd t
     for f in $(ls *.t) ;
     do
