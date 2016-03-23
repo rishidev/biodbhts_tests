@@ -108,6 +108,7 @@ if [ "$2" = "BUILD_HTSLIB_DIR_FLAG" ]; then
     cd Bio-HTS
     perl Build.PL --htslib=$HTSLIB_DIR_FOR_FLAG
     ./Build
+    export PERL5LIB=$PERL5LIB:$(pwd -P)/lib:$(pwd -P)/blib/arch/auto/Bio/DB/HTS/:$(pwd -P)/blib/arch/auto/Bio/DB/HTS/Faidx
     cd t
     for f in $(ls *.t) ;
     do
