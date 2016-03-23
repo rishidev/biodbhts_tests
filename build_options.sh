@@ -5,6 +5,7 @@
 # $1 - clone command -eg "git clone -b static-install https://github.com/drjsanger/Bio-HTS.git"
 # $2 - the test to be run
 #
+export PERL5LIB_ORIG=$PERL5LIB
 
 #
 #test the Build.PL with various options
@@ -14,9 +15,8 @@ if [ "$2" = "BUILD" ]; then
     $1
     cd Bio-HTS
     perl Build.PL
-    ./Build
-    export PERL5LIB_ORIG=$PERL5LIB
-    export PERL5LIB=$PERL5LIB:$(pwd -P)/lib
+    ./Build    
+    export PERL5LIB=$PERL5LIB:$(pwd -P)/lib:$(pwd -P)/blib/arch/auto/Bio/DB/HTS/:$(pwd -P)/blib/arch/auto/Bio/DB/HTS/Faidx
     cd t
     for f in $(ls *.t) ;
     do
@@ -39,8 +39,7 @@ if [ "$2" = "BUILD_SYSTEM_INSTALLED_HTSLIB" ]; then
     cd Bio-HTS
     perl Build.PL
     ./Build
-    export PERL5LIB_ORIG=$PERL5LIB
-    export PERL5LIB=$PERL5LIB:$(pwd -P)/lib
+    export PERL5LIB=$PERL5LIB:$(pwd -P)/lib:$(pwd -P)/blib/arch/auto/Bio/DB/HTS/:$(pwd -P)/blib/arch/auto/Bio/DB/HTS/Faidx    
     cd t
     for f in $(ls *.t) ;
     do
