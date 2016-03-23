@@ -75,10 +75,10 @@ fi
 
 
 if [ "$2" = "BUILD_HTSLIB_DIR_ENV" ]; then
-    echo Makes htslib, then runs Build process
+    echo Makes htslib, then runs Build process. Should run from this location.
     git clone -b master --depth=1 https://github.com/samtools/htslib.git
     cd htslib
-    make install
+    make
     export HTSLIB_DIR="$PWD"
     echo $HTSLIB_DIR
     cd ..
