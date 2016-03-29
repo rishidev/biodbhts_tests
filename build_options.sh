@@ -195,18 +195,37 @@ if [ "$2" = "INSTALL_WITH_OTHER_HTSLIB" ]; then
 fi
 
 if [ "$2" = "INSTALL_PREFIX_PATH" ]; then
-    echo INSTALL.pl on its own
+    echo INSTALL.pl with prefix at end of line 
     $1
     cd Bio-HTS
-    perl INSTALL.pl
+    perl INSTALL.pl ~/prefix_path_test
+    export PERL5LIB=$PERL5LIB:~/prefix_path_test/lib/perl5/x86_64-linux-gnu-thread-multi/:~/prefix_path_test/lib/perl5/x86_64-linux-gnu-thread-multi/auto
     cd t
     for f in $(ls *.t) ;
     do
         perl $f
     done
     echo "Completed $2"
+    export PERL5LIB=$PERL5LIB_ORIG
     exit 0
 fi
+
+if [ "$2" = "INSTALL_PREFIX_FLAG" ]; then
+    echo INSTALL.pl with prefix at end of line 
+    $1
+    cd Bio-HTS
+    perl INSTALL.pl --prefix=~/prefix_flag_test
+    export PERL5LIB=$PERL5LIB:~/prefix_flag_test/lib/perl5/x86_64-linux-gnu-thread-multi/:~/prefix_flag_test/lib/perl5/x86_64-linux-gnu-thread-multi/auto
+    cd t
+    for f in $(ls *.t) ;
+    do
+        perl $f
+    done
+    echo "Completed $2"
+    export PERL5LIB=$PERL5LIB_ORIG
+    exit 0
+fi
+
 
 if [ "$2" = "INSTALL_STATIC_FLAG" ]; then
     echo INSTALL.pl with static option as flag
@@ -221,6 +240,5 @@ if [ "$2" = "INSTALL_STATIC_FLAG" ]; then
     echo "Completed $2"
     exit 0
 fi
-
 
 echo Build test option $2 not found
