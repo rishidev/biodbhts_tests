@@ -154,11 +154,15 @@ fi
 #test the INSTALL.pl script with various options
 #
 
-if [ "$2" = "INSTALL" ]; then
-    echo INSTALL.pl on its own
+if [ "$2" = "INSTALL_WITH_SYSTEM_HTSLIB" ]; then
+    echo INSTALL.pl with system install of htslib for running
+    git clone -b master --depth=1 https://github.com/samtools/htslib.git
+    cd htslib
+    sudo make install
+    sudo ldconfig
+    cd ..    
     $1
     cd Bio-HTS
-    export STATIC_HTS=
     perl INSTALL.pl
     cd t
     for f in $(ls *.t) ;
@@ -169,10 +173,36 @@ if [ "$2" = "INSTALL" ]; then
     exit 0
 fi
 
+if [ "$2" = "INSTALL_WITH_OTHER_HTSLIB" ]; then
+    echo INSTALL.pl on its own
+    $1
+    cd Bio-HTS
+    perl INSTALL.pl
+    cd t
+    for f in $(ls *.t) ;
+    do
+        perl $f
+    done
+    echo "Completed $2"
+    exit 0
+fi
+
+if [ "$2" = "INSTALL_PREFIX_PATH" ]; then
+    echo INSTALL.pl on its own
+    $1
+    cd Bio-HTS
+    perl INSTALL.pl
+    cd t
+    for f in $(ls *.t) ;
+    do
+        perl $f
+    done
+    echo "Completed $2"
+    exit 0
+fi
 
 if [ "$2" = "INSTALL_STATIC_FLAG" ]; then
     echo INSTALL.pl with static option as flag
-    export STATIC_HTS=
     $1
     cd Bio-HTS
     perl INSTALL.pl --static
