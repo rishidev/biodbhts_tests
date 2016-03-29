@@ -174,15 +174,22 @@ if [ "$2" = "INSTALL_WITH_SYSTEM_HTSLIB" ]; then
 fi
 
 if [ "$2" = "INSTALL_WITH_OTHER_HTSLIB" ]; then
-    echo INSTALL.pl on its own
+    echo INSTALL.pl, with a htslib installed elsewhere for running
+    export LD_LIBRARY_PATH_ORIG=$LD_LIBRARY_PATH
+    git clone -b master --depth=1 https://github.com/samtools/htslib.git htslib_run_location
+    cd htslib_run_location
+    make   
+    cd ..
+    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(pwd -P)/htslib_run_location
     $1
     cd Bio-HTS
-    perl INSTALL.pl
+    perl INSTALL.pl    
     cd t
     for f in $(ls *.t) ;
     do
         perl $f
     done
+    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH_ORIG
     echo "Completed $2"
     exit 0
 fi
