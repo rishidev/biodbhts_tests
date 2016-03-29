@@ -69,6 +69,7 @@ if [ "$2" = "BUILD_LOCAL_INSTALLED_HTSLIB" ]; then
         perl $f
     done
     echo "Completed $2"
+    export PERL5LIB=$PERL5LIB_ORIG
     exit 0
 fi
 
@@ -93,6 +94,7 @@ if [ "$2" = "BUILD_HTSLIB_DIR_ENV" ]; then
         perl $f
     done
     echo "Completed $2"
+    export PERL5LIB=$PERL5LIB_ORIG
     exit 0
 fi
 
@@ -115,6 +117,7 @@ if [ "$2" = "BUILD_HTSLIB_DIR_FLAG" ]; then
         perl $f
     done
     echo "Completed $2"
+    export PERL5LIB=$PERL5LIB_ORIG
     exit 0
 fi
 
@@ -131,12 +134,14 @@ if [ "$2" = "BUILD_HTSLIB_DIR_WITH_STATIC_FLAG" ]; then
     perl Build.PL --htslib=$HTSLIB_DIR_FOR_FLAG --static
     ./Build
     rm -rf $HTSLIB_DIR_FOR_FLAG
+    export PERL5LIB=$PERL5LIB:$(pwd -P)/lib:$(pwd -P)/blib/arch/auto/Bio/DB/HTS/:$(pwd -P)/blib/arch/auto/Bio/DB/HTS/Faidx
     cd t
     for f in $(ls *.t) ;
     do
         perl $f
     done
     echo "Completed $2"
+    export PERL5LIB=$PERL5LIB_ORIG
     exit 0
 fi
 
