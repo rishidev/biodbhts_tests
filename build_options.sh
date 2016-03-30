@@ -127,15 +127,18 @@ if [ "$2" = "BUILD_HTSLIB_DIR_WITH_STATIC_FLAG" ]; then
     git clone -b master --depth=1 https://github.com/samtools/htslib.git
     cd htslib
     make
+    rm -f libhts.so*
     export HTSLIB_DIR_FOR_FLAG="$PWD"
     echo $HTSLIB_DIR_FOR_FLAG
     cd ..
     $1
     cd Bio-HTS
-    perl Build.PL --htslib=$HTSLIB_DIR_FOR_FLAG --static
+    export HTSLIB_DIR=$HTSLIB_DIR_FOR_FLAG
+    perl Build.PL --static=1 --install_base=~/localsw
     ./Build
+    echo "Build of Bio::DB::HTS completed"
     rm -rf $HTSLIB_DIR_FOR_FLAG
-    export PERL5LIB=$PERL5LIB:$(pwd -P)/lib:$(pwd -P)/blib/arch/auto/Bio/DB/HTS/:$(pwd -P)/blib/arch/auto/Bio/DB/HTS/Faidx
+    export PERL5LIB=$PERL5LIB:~/localsw
     cd t
     for f in $(ls *.t) ;
     do
