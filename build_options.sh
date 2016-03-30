@@ -36,11 +36,12 @@ if [ "$2" = "BUILD_SYSTEM_INSTALL_ALL" ]; then
     git clone -b master --depth=1 https://github.com/samtools/htslib.git
     cd htslib
     sudo make install
+    sudo ldconfig
     cd ..
     $1
     cd Bio-HTS
     perl Build.PL
-    ./Build install
+    sudo ./Build install
     cd t
     for f in $(ls *.t) ;
     do
