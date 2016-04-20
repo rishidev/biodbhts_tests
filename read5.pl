@@ -26,16 +26,6 @@ for my $f (@test_files)
     printf( "File open successful.\n" ) ;
 
     my $header = $read_fh->header_read() ;
-    my $index = $read_fh->index_load() ;
-
-    if( defined $index )
-    {
-      printf( "Index returned something\n" ) ;
-    }
-    else
-    {
-      printf( "Index returned nothing\n" ) ;
-    }
 
     for(my $i=0 ; $i <= 5 ; $i++)
     {
