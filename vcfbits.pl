@@ -24,7 +24,7 @@ while( $r < 5 )
 }
 
 $r = 0 ;
-while( $r < 5 )
+while( $r < 9 )
 {
   my $row1again=$sweep->previous_row();
   $row1again->print($sweep->header);
