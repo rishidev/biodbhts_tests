@@ -16,15 +16,19 @@ my $r = 0 ;
 while( $r < 5 )
 {
   my $row1=$sweep->next_row();
-  $row1->print($sweep->header);
+  if( $r>0 )
+  {
+#    $row1->print($sweep->header);
+  }
   $r++ ;
 }
 
-while( $r > 1 )
+$r = 0 ;
+while( $r < 5 )
 {
   my $row1again=$sweep->previous_row();
   $row1again->print($sweep->header);
-  $r-- ;
+  $r++ ;
 }
 
 
