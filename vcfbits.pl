@@ -12,21 +12,21 @@ print("File opened\n");
 print("Header\n");
 print($sweep->header."\n");
 
-my $row1=$sweep->next_row();
-print( "row1:");
-$row1->print($sweep->header);
+my $r = 0 ;
+while( $r < 5 )
+{
+  my $row1=$sweep->next_row();
+  $row1->print($sweep->header);
+  $r++ ;
+}
 
-my $row2=$sweep->next_row();
-print( "row2:");
-$row2->print($sweep->header);
+while( $r > 1 )
+{
+  my $row1again=$sweep->previous_row();
+  $row1again->print($sweep->header);
+  $r-- ;
+}
 
-my $row1again=$sweep->previous_row();
-print("row1again:");
-$row1again->print($sweep->header);
-
-my $row2again=$sweep->previous_row();
-print("row2again:");
-$row2again->print($sweep->header);
 
 #Close
 $sweep->close() ;
