@@ -30,6 +30,10 @@ while( $r < 3 )
   $row1again->print($sweep->header);
   my $chr = $row1again->chromosome($sweep->header);
   print("Chromsome from row $r:$chr\n") ;
+  print("Position from row $r:".$row1again->position()."\n") ;
+  print("Quality from row $r:".$row1again->quality()."\n") ;
+  print("ID from row $r:".$row1again->id()."\n") ;
+  print("Reference from row $r:".$row1again->reference()."\n") ;
   $r++ ;
 }
 
