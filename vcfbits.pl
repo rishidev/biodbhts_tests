@@ -28,7 +28,7 @@ while( $r < 3 )
 {
   my $row1again=$sweep->previous_row();
   $row1again->print($sweep->header);
-  my $chr = $row1again->chromosome();
+  my $chr = $row1again->chromosome($sweep->header);
   print("Chromsome from row $r:$chr\n") ;
   $r++ ;
 }
