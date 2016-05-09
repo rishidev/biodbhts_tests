@@ -35,7 +35,7 @@ int main()
 
   for( int r=0 ; r<5 ; r++ )
   {
-    printf( "Reading line %d\n", r ) ;
+    printf( "Line %d\t", r ) ;
     row = bcf_sweep_fwd(sweep);
     print_vcf_row(row,h);
   }
@@ -48,6 +48,10 @@ int main()
 void print_vcf_row(const bcf1_t* row, const bcf_hdr_t* h)
 {
   char* chr = bcf_hdr_id2name(h,row->rid) ;
-  printf("Chromsome :%s\n", chr) ;
-
+  printf("Chromsome:%s\t", chr) ;
+  printf("Position:%d\t", row->pos+1) ;
+  printf("Quality:%f\t", row->qual) ;
+  printf("ID:%s\t", row->d.id ) ;
+  printf("Reference:%s\t", row->d.als) ;
+  printf("\n");
 }
