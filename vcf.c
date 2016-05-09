@@ -22,13 +22,32 @@ gcc -I $HTSLIB_DIR/htslib -D_IOLIB=2 -D_FILE_OFFSET_BITS=64 -o vcf.exe vcf.c -Wl
 
 */
 
+void print_vcf_row(const bcf1_t* row, const bcf_hdr_t* h) ;
+
 int main()
 {
   printf("Testing HTSlib in C\n") ;
 
   /* Mimic Sweep open close */
   bcf_sweep_t* sweep = bcf_sweep_init("data/test.vcf.gz") ;
+  bcf_hdr_t* h = bcf_sweep_hdr(sweep);
+  bcf1_t* row ;
+
+  for( int r=0 ; r<5 ; r++ )
+  {
+    printf( "Reading line %d\n", r ) ;
+    row = bcf_sweep_fwd(sweep);
+    print_vcf_row(row,h);
+  }
 
   bcf_sweep_destroy(sweep) ;
   return 0 ;
+}
+
+
+void print_vcf_row(const bcf1_t* row, const bcf_hdr_t* h)
+{
+  char* chr = bcf_hdr_id2name(h,row->rid) ;
+  printf("Chromsome :%s\n", chr) ;
+
 }
