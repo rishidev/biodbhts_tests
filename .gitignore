@@ -1,2 +1,3 @@
 data/yeast.sorted.bam.bai
 data/yeast.sorted.cram.crai
+*.exe
