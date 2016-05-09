@@ -17,10 +17,7 @@ print("Forwards\n");
 while( $r < 3 )
 {
   my $row1=$sweep->next_row();
-  if( $r>0 )
-  {
-    $row1->print($sweep->header);
-  }
+  $row1->print($sweep->header);
   $r++ ;
 }
 

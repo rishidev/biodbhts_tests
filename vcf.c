@@ -35,8 +35,15 @@ int main()
 
   for( int r=0 ; r<5 ; r++ )
   {
-    printf( "Line %d\t", r ) ;
+    printf( "Forwards Line %d\t", r ) ;
     row = bcf_sweep_fwd(sweep);
+    print_vcf_row(row,h);
+  }
+
+  for( int r=0 ; r<3 ; r++ )
+  {
+    printf( "Backwards Line %d\t", r ) ;
+    row = bcf_sweep_bwd(sweep);
     print_vcf_row(row,h);
   }
 
