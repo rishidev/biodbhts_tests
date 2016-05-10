@@ -35,7 +35,7 @@ int main()
 
   for( int r=0 ; r<5 ; r++ )
   {
-    printf( "Forwards Line %d\t", r ) ;
+    //printf( "Forwards Line %d\t", r ) ;
     row = bcf_sweep_fwd(sweep);
     //print_vcf_row(row,h);
   }
@@ -66,5 +66,18 @@ void print_vcf_row(const bcf1_t* row, const bcf_hdr_t* h)
   {
     printf("%s,",row->d.allele[i]);
   }
+
+  //print info fields
+  bcf_info_t* info = bcf_get_info(h, row, "NS");
+  printf("\tINFO:") ;
+  if( info == NULL )
+  {
+    printf( "NULL\t" ) ;
+  }
+  else
+  {
+    printf( "len=%d,type=%d,value=%hhd\t", info->len, info->type, info->v1.i ) ;
+  }
+
   printf("\n");
 }
