@@ -40,7 +40,7 @@ int main()
     //print_vcf_row(row,h);
   }
 
-  for( int r=0 ; r<3 ; r++ )
+  for( int r=0 ; r<5 ; r++ )
   {
     printf( "Backwards Line %d\t", r ) ;
     row = bcf_sweep_bwd(sweep);
@@ -60,6 +60,7 @@ void print_vcf_row(const bcf1_t* row, const bcf_hdr_t* h)
   printf("Quality:%f\t", row->qual) ;
   printf("ID:%s\t", row->d.id ) ;
   printf("Reference:%s\t", row->d.als) ;
+  printf("Filters(%d):\t", row->d.n_flt) ;
   printf("Alleles:(%d):", row->n_allele-1) ;
   for (int i = 1; i < row->n_allele; ++i)
   {

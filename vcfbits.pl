@@ -23,7 +23,7 @@ while( $r < 3 )
 
 
 $r = 0 ;
-while( $r < 3 )
+while( $r < 5 )
 {
   my $row1again=$sweep->previous_row();
   #$row1again->print($sweep->header);
@@ -34,6 +34,7 @@ while( $r < 3 )
   print("Quality:".$row1again->quality()."\t") ;
   print("ID:".$row1again->id()."\t") ;
   print("Reference:".$row1again->reference()."\t") ;
+  print("Filters(".$row1again->num_filters()."):\t") ;
   print("Alleles(".$row1again->num_alleles()."):") ;
   my $alleles_ref = $row1again->get_alleles() ;
   my @alleles = @$alleles_ref ;
@@ -41,7 +42,6 @@ while( $r < 3 )
   {
     print($a.",") ;
   }
-
   print("\n");
   $r++ ;
 }
