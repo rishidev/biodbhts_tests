@@ -17,7 +17,7 @@ print("Forwards\n");
 while( $r < 3 )
 {
   my $row1=$sweep->next_row();
-  $row1->print($sweep->header);
+#  $row1->print($sweep->header);
   $r++ ;
 }
 
@@ -25,15 +25,24 @@ while( $r < 3 )
 $r = 0 ;
 while( $r < 3 )
 {
-  print("Backwards Row $r\t");
   my $row1again=$sweep->previous_row();
-  $row1again->print($sweep->header);
+  #$row1again->print($sweep->header);
+
   my $chr = $row1again->chromosome($sweep->header);
   print("Chromsome:$chr\t") ;
   print("Position:".$row1again->position()."\t") ;
   print("Quality:".$row1again->quality()."\t") ;
   print("ID:".$row1again->id()."\t") ;
-  print("Reference:".$row1again->reference()."\t\n") ;
+  print("Reference:".$row1again->reference()."\t") ;
+  print("Alleles(".$row1again->num_alleles()."):") ;
+  my $alleles_ref = $row1again->get_alleles() ;
+  my @alleles = @$alleles_ref ;
+  for my $a (@alleles)
+  {
+    print($a.",") ;
+  }
+
+  print("\n");
   $r++ ;
 }
 
