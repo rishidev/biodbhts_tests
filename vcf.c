@@ -28,6 +28,33 @@ int main()
 {
   printf("Testing HTSlib in C\n") ;
 
+  /* vcf bits with format */
+  htsFile* fp = bcf_open("data/test.vcf.gz", "r");
+  bcf_hdr_t* h1 = bcf_hdr_read(fp);
+  bcf1_t* rec = bcf_init();
+  if ( bcf_read(fp, h1, rec) == 0 )
+  {
+    bcf_unpack(rec, BCF_UN_ALL) ;
+  }
+  printf("chromosome:%s\n", bcf_hdr_id2name(h1,rec->rid));
+  if ( bcf_read(fp, h1, rec) == 0 )
+  {
+    bcf_unpack(rec, BCF_UN_ALL) ;
+  }
+
+  printf("chromosome:%s\n", bcf_hdr_id2name(h1,rec->rid));
+  if ( bcf_read(fp, h1, rec) == 0 )
+  {
+    bcf_unpack(rec, BCF_UN_ALL) ;
+  }
+  printf("chromosome:%s\n", bcf_hdr_id2name(h1,rec->rid));
+  bcf_fmt_t* fmt = bcf_get_fmt(h1, rec, "DP");
+  int32_t* buf_i = calloc(fmt->n, sizeof(int32_t));
+  int result = bcf_get_format_int32(h1, rec, "DP", &buf_i, &(fmt->n)) ;
+  printf("rn6DEBUG:int8 format result %d for size %d\n",result,fmt->n) ;
+
+
+
   /* Mimic Sweep open close */
   bcf_sweep_t* sweep = bcf_sweep_init("data/test.vcf.gz") ;
   bcf_hdr_t* h = bcf_sweep_hdr(sweep);
@@ -48,6 +75,10 @@ int main()
   }
 
   bcf_sweep_destroy(sweep) ;
+
+  // The read method of getting a row
+
+
   return 0 ;
 }
 
