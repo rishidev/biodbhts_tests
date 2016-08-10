@@ -14,7 +14,12 @@
 
 use strict;
 use warnings;
-use Bio::EnsEMBL::IO ;
+use Bio::EnsEMBL::IO::Parser::VCF4Tabix ;
+use Bio::EnsEMBL::IO::Parser::PairwiseTabix ;
 
 my $test_file = 'http://vizhub.wustl.edu/hubSample/hg19/K562POL2.gz' ;
 #my $test_file = 'http://www.ebi.ac.uk/~rishi/test_files/K562POL2.gz' ;
+
+#make the test here
+#my $t1 = Bio::EnsEMBL::IO::Parser::PairwiseTabix->open($test_file) ;
+my $t1 = Bio::EnsEMBL::IO::Parser::VCF4Tabix->open($test_file) ;
