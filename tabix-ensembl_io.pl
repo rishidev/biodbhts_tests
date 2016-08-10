@@ -21,5 +21,12 @@ my $test_file = 'http://vizhub.wustl.edu/hubSample/hg19/K562POL2.gz' ;
 #my $test_file = 'http://www.ebi.ac.uk/~rishi/test_files/K562POL2.gz' ;
 
 #make the test here
-#my $t1 = Bio::EnsEMBL::IO::Parser::PairwiseTabix->open($test_file) ;
-my $t1 = Bio::EnsEMBL::IO::Parser::VCF4Tabix->open($test_file) ;
+print "starting tests on $test_file\n" ;
+print "Bio::EnsEMBL::IO::Parser::PairwiseTabix\n" ;
+my $t1 = Bio::EnsEMBL::IO::Parser::PairwiseTabix->open($test_file) ;
+
+print "Bio::EnsEMBL::IO::Parser::VCF4Tabix\n" ;
+my $t2 = Bio::EnsEMBL::IO::Parser::VCF4Tabix->open($test_file) ;
+
+print "Bio::EnsEMBL::IO::Parser::open_as(PairwiseTabix,..)\n" ;
+my $t3 = Bio::EnsEMBL::IO::Parser::open_as('PairwiseTabix', $test_file);
