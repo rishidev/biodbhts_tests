@@ -44,22 +44,30 @@ foreach my $a (@hts_alignments)
 
 
 
-print "Using ensembl-io\n" ;
+print "\nUsing ensembl-io\n" ;
 my $io_adaptor = Bio::EnsEMBL::IO::Adaptor::HTSAdaptor->new($url);
 $io_adaptor->fetch_alignments_filtered($chr, $start, $end);
 $io_adaptor->htsfile_close() ;
 
 
 
-print "Using ensembl-web style - get_data\n" ;
+print "\nUsing ensembl-web style - get_data\n" ;
 my $web_adaptor = Bio::EnsEMBL::IO::Adaptor::HTSAdaptor->new($url);
 my $data = $web_adaptor->fetch_alignments_filtered($chr, $start, $end) ;
 $web_adaptor->htsfile_close;
 
-print "Using ensembl-web style - consensus_features\n" ;
+print "\nUsing ensembl-web style - consensus_features\n" ;
+$web_adaptor = Bio::EnsEMBL::IO::Adaptor::HTSAdaptor->new($url);
+my $consensus = $web_adaptor->fetch_consensus($chr, $start, $end) ;
+
+my $cons_lookup = {};
+foreach (@$consensus)
+{
+  $cons_lookup->{$_->{'x'}} = $_->{'bp'};
+}
+$web_adaptor->htsfile_close;
 
 
-print "Using ensembl-web style - consensus_features\n" ;
 
 
 
