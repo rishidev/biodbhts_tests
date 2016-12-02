@@ -17,16 +17,20 @@ use warnings;
 use Bio::EnsEMBL::IO::Parser::VCF4Tabix ;
 use Bio::EnsEMBL::IO::Parser::PairwiseTabix ;
 
-my $test_file = 'http://vizhub.wustl.edu/hubSample/hg19/K562POL2.gz' ;
-#my $test_file = 'http://www.ebi.ac.uk/~rishi/test_files/K562POL2.gz' ;
+my @tfiles = (
+ 'ftp://ftp.ensembl.org/pub/variation_genotype/mus_musculus/mgp.v3.indels.sorted.rsIDdbSNPv137.vcf.gz',
+ 'http://vizhub.wustl.edu/hubSample/hg19/K562POL2.gz',
+) ;
 
-#make the test here
-print "starting tests on $test_file\n" ;
-print "Bio::EnsEMBL::IO::Parser::PairwiseTabix\n" ;
-my $t1 = Bio::EnsEMBL::IO::Parser::PairwiseTabix->open($test_file) ;
+for my $test_file (@tfiles)
+{
+  print "starting tests on $test_file\n" ;
+  print "Bio::EnsEMBL::IO::Parser::PairwiseTabix\n" ;
+  my $t1 = Bio::EnsEMBL::IO::Parser::PairwiseTabix->open($test_file) ;
 
-print "Bio::EnsEMBL::IO::Parser::VCF4Tabix\n" ;
-my $t2 = Bio::EnsEMBL::IO::Parser::VCF4Tabix->open($test_file) ;
+  print "Bio::EnsEMBL::IO::Parser::VCF4Tabix\n" ;
+  my $t2 = Bio::EnsEMBL::IO::Parser::VCF4Tabix->open($test_file) ;
 
-print "Bio::EnsEMBL::IO::Parser::open_as(PairwiseTabix,..)\n" ;
-my $t3 = Bio::EnsEMBL::IO::Parser::open_as('PairwiseTabix', $test_file);
+  print "Bio::EnsEMBL::IO::Parser::open_as(PairwiseTabix,..)\n" ;
+  my $t3 = Bio::EnsEMBL::IO::Parser::open_as('PairwiseTabix', $test_file);
+}
