@@ -22,6 +22,13 @@ my $test_file = 'http://vizhub.wustl.edu/hubSample/hg19/K562POL2.gz' ;
 my $tbx = Bio::DB::HTS::Tabix->new( filename => $test_file, warnings => 0 );
 my $h = $tbx->header ;
 my @ha = $tbx->header_array ;
-printf $ha[0] ;
-
+if( $ha[0] )
+{
+  print "$test_file header line 1\n" ;
+  print $ha[0] ;
+}
+else
+{
+  print "Warning: file has no header\n" ;
+}
 $tbx->close;
