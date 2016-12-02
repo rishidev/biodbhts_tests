@@ -20,17 +20,23 @@ use Bio::EnsEMBL::IO::Parser::PairwiseTabix ;
 my @tfiles = (
  'ftp://ftp.ensembl.org/pub/variation_genotype/mus_musculus/mgp.v3.indels.sorted.rsIDdbSNPv137.vcf.gz',
  'http://vizhub.wustl.edu/hubSample/hg19/K562POL2.gz',
+ 'data/data.vcf.gz' # VCF4Tabix only I guess
 ) ;
 
 for my $test_file (@tfiles)
 {
-  print "starting tests on $test_file\n" ;
+  print "\n\nstarting tests on $test_file\n" ;
   print "Bio::EnsEMBL::IO::Parser::PairwiseTabix\n" ;
   my $t1 = Bio::EnsEMBL::IO::Parser::PairwiseTabix->open($test_file) ;
+  my $r = $t1->read_record() ;
+
 
   print "Bio::EnsEMBL::IO::Parser::VCF4Tabix\n" ;
   my $t2 = Bio::EnsEMBL::IO::Parser::VCF4Tabix->open($test_file) ;
+  $t2->next() ;
+  print $t2->read_record()."\n" ;
 
   print "Bio::EnsEMBL::IO::Parser::open_as(PairwiseTabix,..)\n" ;
   my $t3 = Bio::EnsEMBL::IO::Parser::open_as('PairwiseTabix', $test_file);
+  print $t3->read_record()."\n" ;
 }

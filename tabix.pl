@@ -21,6 +21,7 @@ use Bio::DB::HTS::Tabix;
 my @tfiles = (
  'ftp://ftp.ensembl.org/pub/variation_genotype/mus_musculus/mgp.v3.indels.sorted.rsIDdbSNPv137.vcf.gz',
  'http://vizhub.wustl.edu/hubSample/hg19/K562POL2.gz',
+ 'data/data.vcf.gz'
 ) ;
 
 for my $test_file (@tfiles)
@@ -32,7 +33,7 @@ for my $test_file (@tfiles)
   if( $ha[0] )
   {
     print "header line 1\n" ;
-    print $ha[0] ;
+    print $ha[0]."\n" ;
   }
   else
   {
