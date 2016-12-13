@@ -15,6 +15,7 @@ my @test_files = (
                   'ftp://ftp.ensembl.org/pub/release-82/bamcov/gallus_gallus/genebuild/Galgal4.ICGSC.breast.2.bam',
                   'ftp://ftp.ebi.ac.uk/pub/databases/arrayexpress/data/atlas/rnaseq/SRR527/SRR527165/SRR527165.cram',
                   'http://www.ebi.ac.uk/~rishi/test_files/chicken.chrZ.smallbrainz2.ena.sorted.cram',
+                  'http://www.ebi.ac.uk/~rishi/test_files/chicken.chrZ.smallbrainz2.ena-no_index.sorted.cram',
                   'https://www.ebi.ac.uk/~rishi/test_files/chicken.chrZ.smallbrainz2.ena.sorted.cram'
                  ) ;
 

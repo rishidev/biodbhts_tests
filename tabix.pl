@@ -26,8 +26,8 @@ my @tfiles = (
 
 for my $test_file (@tfiles)
 {
-  print $test_file."\n" ;
-  my $tbx = Bio::DB::HTS::Tabix->new( filename => $test_file, warnings => 0 );
+  print "TABIX TESTING FILE:".$test_file."\n" ;
+  my $tbx = Bio::DB::HTS::Tabix->new( filename => $test_file, warnings => 0, use_tmp_dir => 0 );
   my $h = $tbx->header ;
   my @ha = $tbx->header_array ;
   if( $ha[0] )

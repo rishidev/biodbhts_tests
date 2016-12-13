@@ -31,10 +31,10 @@ for my $test_file (@tfiles)
   my $r = $t1->read_record() ;
 
 
-  print "Bio::EnsEMBL::IO::Parser::VCF4Tabix\n" ;
-  my $t2 = Bio::EnsEMBL::IO::Parser::VCF4Tabix->open($test_file) ;
-  $t2->next() ;
-  print $t2->read_record()."\n" ;
+#  print "Bio::EnsEMBL::IO::Parser::VCF4Tabix\n" ;
+#  my $t2 = Bio::EnsEMBL::IO::Parser::VCF4Tabix->open($test_file) ;
+#  $t2->next() ;
+#  print $t2->read_record()."\n" ;
 
   print "Bio::EnsEMBL::IO::Parser::open_as(PairwiseTabix,..)\n" ;
   my $t3 = Bio::EnsEMBL::IO::Parser::open_as('PairwiseTabix', $test_file);
